@@ -5,11 +5,12 @@ import asyncio
 from time import time
 
 from Objects.IGetSpecialItems import IGetSpecialItems
-from Objects.Listings import ClassifiedsSearch, MyListings
+from Objects.Listings import *
 from Objects.IGetPrices import IGetPrices
 from Objects.IGetPriceHistory import IGetPriceHistory
 from Objects.IGetCurrencies import IGetCurrencies
 from Objects.IGetUserInfo import IGetUserInfo
+from Objects.Auxiliary import *
 
 
 def token_check(func):
@@ -39,15 +40,20 @@ def key_check(func):
 
 class API(EventEmitter):
 
-    def __init__(self, token='', key='', to_json: bool=True, rate_limit: bool=True,
+    def __init__(self, token='', key='', rate_limit: bool=True,
                  session: aiohttp.ClientSession=aiohttp.ClientSession()):
+        """
+        Event-based BackpackTF api wrapper
+        :param token: required for token api's, not required if key is set
+        :param key: required for all other api's
+        :param rate_limit: protection against rate limiting ban
+        :param session: aiohttp session
+        """
         self.token = token
         self.key = key
 
         self.session = session
         self.request_ = self.async_request
-
-        self.to_json = to_json
 
         self.rate_limit = rate_limit
         self.requests_count = 0
@@ -61,7 +67,7 @@ class API(EventEmitter):
         :param method: GET, POST, or DELETE
         :param api: all the apis can be found here https://backpack.tf/developer
         :param kwargs: options: params or json
-        :return bool, response_text: True if request was successful, response_text from the server
+        :return bool, response_text: True if request was successful, response object
         """
 
         if self.rate_limit:
@@ -99,10 +105,11 @@ class API(EventEmitter):
 
         response = await self.request_('GET', 'aux/token/v1', params={'key': self.key})
 
-        successful, message = response
+        successful = response[0]
+        message = GetAccessToken(response[1])
         self.emit('Token', successful, message)
         if successful:
-            self.token = message.get('token')
+            self.token = message.token
 
         return response
 
@@ -116,7 +123,8 @@ class API(EventEmitter):
 
         response = await self.request_('POST', 'aux/heartbeat/v1', params={'token': self.token, 'automatic': automatic})
 
-        successful, message = response
+        successful = response[0]
+        message = Heartbeat(response[1])
         self.emit('Heartbeat', successful, message)
 
         return response
@@ -132,7 +140,8 @@ class API(EventEmitter):
         response = await self.request_('POST', 'classifieds/list/v1', json={'token': self.token, 'listings': listings},
                                        json_=True)
 
-        successful, message = response
+        successful = response[0]
+        message = CreateListings(response[1])
         self.emit('ListingsCreated', successful, message)
 
         return response
@@ -149,7 +158,8 @@ class API(EventEmitter):
         response = await self.request_('DELETE', 'classifieds/delete/v1', json={'token': self.token,
                                                                                 'listing_ids': listings}, json_=True)
 
-        successful, message = response
+        successful = response[0]
+        message = DeleteListings(response[1])
         self.emit('ListingsDeleted', successful, message)
 
         return response

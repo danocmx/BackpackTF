@@ -1,3 +1,16 @@
+class CreateListings:
+
+    def __init__(self, data):
+        self.message = data.get('message')
+        self.listings = data.get('listings')
+
+
+class DeleteListings:
+
+    def __init__(self, data):
+        self.deleted_listings = data.get('blah')
+
+
 class MyListings:
 
     def __init__(self, data):
