@@ -25,15 +25,15 @@ async def token_set(successful, message):
     if successful:
         print('Token received from backpack.tf')
     else:
-        print(f'Token was not received from backpack.tf, message: {message["message"]}')
+        print(f'Token was not received from backpack.tf, message: {message.message}')
 
 
 @api.on('Heartbeat')
 async def heartbeat_response(successful, message):
     if successful:
-        print(f'Heartbeat sent to backpack.tf, bumped {message["bumped"]}')
+        print(f'Heartbeat sent to backpack.tf, bumped {message.bumped}')
     else:
-        print(f'Heartbeat was not sent to backpack.tf, message: {message["message"]}')
+        print(f'Heartbeat was not sent to backpack.tf, message: {message.message}')
 
 
 loop = asyncio.get_event_loop()
