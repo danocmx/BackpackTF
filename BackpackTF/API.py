@@ -4,13 +4,13 @@ import json
 import asyncio
 from time import time
 
-from Objects.IGetSpecialItems import IGetSpecialItems
-from Objects.Listings import *
-from Objects.IGetPrices import IGetPrices
-from Objects.IGetPriceHistory import IGetPriceHistory
-from Objects.IGetCurrencies import IGetCurrencies
-from Objects.IGetUserInfo import IGetUserInfo
-from Objects.Auxiliary import *
+from .Objects.IGetSpecialItems import IGetSpecialItems
+from .Objects.Listings import *
+from .Objects.IGetPrices import IGetPrices
+from .Objects.IGetPriceHistory import IGetPriceHistory
+from .Objects.IGetCurrencies import IGetCurrencies
+from .Objects.IGetUserInfo import IGetUserInfo
+from .Objects.Auxiliary import *
 
 
 def token_check(func):
