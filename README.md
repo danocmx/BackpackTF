@@ -1,10 +1,12 @@
-###### BackpackTF
+# BackpackTF
 BackpackTF Api wrapper
 
 Note: Some api's require elevated access to api key, you have to request it on the api key page, 
       it should take 24-48 hours to get elevated access.
 
-TODO:
+
+
+#####TODO:
 1. Add web cookies methods
 2. Add regular web methods
 
@@ -12,7 +14,7 @@ Pretty much just made this for myself but anyone can download this lib.
 I'd like to receive all feedback from you since I'am still learning how to do this.
 I'd be glad if someone could help me with Steam openID login to backpack.tf.
 
-#### Example: 
+##### Example: 
 ```python
 from BackpackTF.API import API
 import asyncio
